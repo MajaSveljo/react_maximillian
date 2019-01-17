@@ -35,14 +35,26 @@ class App extends Component {
   }
 
   render() {
+
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor : 'pointer'
+    }
+    // this way not everything can be used, eg. on:hover
+    // later better way will be shown
+
     return (
       <div className="App">
-        <h1>Hi, I'm a React App</h1>
+        <h1>Hi, I'm a React App</h1>        
+        <button 
+
+          // the "style" in {} referes to the const style defined above, just below render method
         
-        {/* this way is *** NOT *** recommended, but is to be used if necessary.
-        It's not recommended because React can render too often*/}
-        
-        <button onClick={() => this.switchNameHandler("Maja3")}>Switch Name</button>
+          style={style}
+          onClick={() => this.switchNameHandler("Maja3")}>Switch Name</button>
         <Person 
           name={this.state.persons[0].name}
           age={this.state.persons[0].age} />

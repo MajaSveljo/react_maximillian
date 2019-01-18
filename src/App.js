@@ -11,7 +11,9 @@ class App extends Component {
       { name: "Pepsi", age: 2},      
     ],
 
-    otherState: 'some other value'
+    otherState: 'some other value',
+
+    showPersons: false
   }
 
   switchNameHandler = (newName) => {
@@ -34,6 +36,11 @@ class App extends Component {
   }) 
   }
 
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
+  }
+
   render() {
 
     const style = {
@@ -43,33 +50,29 @@ class App extends Component {
       padding: '8px',
       cursor : 'pointer'
     }
-    // this way not everything can be used, eg. on:hover
-    // later better way will be shown
-
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>        
         <button 
-
-          // the "style" in {} referes to the const style defined above, just below render method
-        
           style={style}
-          onClick={() => this.switchNameHandler("Maja3")}>Switch Name</button>
-        <Person 
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age} />
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          
-          // this way is recommended
-          
-          click={this.switchNameHandler.bind(this, "Dragan2")}
-          changed={this.nameChangedHandler}>
-          My Hobbies: being annoying</Person>
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age} />
+          onClick={this.togglePersonsHandler}>Switch Name</button>
+          {
+             this.state.showPersons ? 
+            <div>
+              <Person 
+                name={this.state.persons[0].name}
+                age={this.state.persons[0].age} />
+              <Person
+                name={this.state.persons[1].name}
+                age={this.state.persons[1].age}
+                click={this.switchNameHandler.bind(this, "Dragan2")}
+                changed={this.nameChangedHandler}>
+                My Hobbies: being annoying</Person>
+              <Person
+                name={this.state.persons[2].name}
+                age={this.state.persons[2].age} />
+            </div> : null 
+          }
       </div>
     );
 

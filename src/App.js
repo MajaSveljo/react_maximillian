@@ -6,9 +6,9 @@ class App extends Component {
 
   state = {
     persons: [
-      { name: "Maja", age: 25},
-      { name: "Dragan", age: 26},
-      { name: "Pepsi", age: 2},      
+      { id:"1", name: "Maja", age: 25},
+      { id:"2", name: "Dragan", age: 26},
+      { id:"3", name: "Pepsi", age: 2},      
     ],
 
     otherState: 'some other value',
@@ -26,27 +26,8 @@ class App extends Component {
   }
 
   deletePersonHandler = (personIndex) => {
-    // loše je mutirati state ovako direktno, vodi nepredvidivim ponašanjima aplikacije.
-    // state treba kopirati pa tek onda menjati.
-    // ovo ćemo postići dodavanjem slice metode.
-    // Slice bez argumenata radi tako što kopira niz i vraća novi niz koji sačuvava u varijablu (u ovom slučaju const persons).
-    // ovaj niz sesada može bezbedno menjati.
-
-    // const persons = this.state.persons.slice();
-    // persons.splice(personIndex, 1);
-    // this.setState({persons: persons});
-
-
-    // alternativa slice-u je ES6 feature - spread operator.
-    // ovaj operator uzima podatke iz zadatog niza (persons u ovom slučaju), 
-    // pretvara ih u listu i dodaje novom nizu (const persons).
-    // rade isto, jedino je spread modernija metoda.
-
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
-
-    // dakle kada se ne mutira stanje direktno bitno je kada završimo da set-ujemo state,
-    // odnosno da promene koje smo napravili sada upišemo u naše stanje
     this.setState({persons: persons});
   }
 
@@ -74,7 +55,14 @@ class App extends Component {
               return <Person
                 click={() => this.deletePersonHandler(index)} 
                 name={person.name}
-                age={person.age} />
+                age={person.age}
+
+                // za key nećemo koristiti index jer se index menja kako se brišu ili dodaju elementi, te
+                // bi to moglo dovesti do zabuna
+                
+                // ali zašto nam uopšte treba key? pa s' obzirom da react poredi virtual DOM sa pravim DOM-om on preko key-a
+                // zna koje delove pravog DOM-a treba da promeni
+                key={person.id} />
             })}
           </div>
         )

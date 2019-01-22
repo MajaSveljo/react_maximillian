@@ -25,9 +25,6 @@ class App extends Component {
       ...this.state.persons[personIndex]
     };
 
-    // alternativni, stariji način
-    // const person = Object.assign({}, this.state.persons[personIndex]);
-
     person.name = event.target.value;
 
     const persons = [...this.state.persons];
@@ -50,7 +47,8 @@ class App extends Component {
   render() {
 
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
@@ -71,7 +69,10 @@ class App extends Component {
                 changed={(event) => this.nameChangedHandler(event, person.id)} />
             })}
           </div>
-        )
+        );
+
+        // dinamičko menjanje css-a. bez korišćenja className-a
+        style.backgroundColor = 'red';
     }
 
     return (
@@ -83,8 +84,6 @@ class App extends Component {
           {persons}
       </div>
     );
-
-    // return React.createElement('div', null, React.createElement('h1', {className: 'App'}, 'Does this work now?'))
   }
 }
 

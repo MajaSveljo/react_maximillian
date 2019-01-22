@@ -1,5 +1,6 @@
 import React, { Component } from 'react'; 
 import './App.css';
+import Radium from 'radium';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -52,7 +53,14 @@ class App extends Component {
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor : 'pointer'
+      cursor : 'pointer',
+      // by adding Radium, we can use pseude selectors.
+      // they are wrapped in quotations because they are NOT valid JS property names.
+      // as strings they are converted into valid propertys. (they aren't valid from the get-go because they start with ":")
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     }
 
     let persons = null;
@@ -72,15 +80,20 @@ class App extends Component {
         );
 
         style.backgroundColor = 'red';
+        style[':hover'] = {
+          backgroundColor: 'salmon',
+          color: 'black'
+          // ne ide style.:hover, jer je u pitanju string, zato ide style[':hover']
+        };
     }
 
     const classes = [];
     if (this.state.persons.length <= 2) {
-      classes.push('red'); // classes = ['red']
+      classes.push('red'); 
     }
 
     if (this.state.persons.length <= 1) {
-      classes.push('bold'); // classes = ['red', 'bold']
+      classes.push('bold'); 
     }
 
     return (
@@ -96,4 +109,11 @@ class App extends Component {
   }
 }
 
-export default App;
+// radium se dodaje ovde i gore u import. Ovako dodate komponente se zovu
+// a "higher order component"
+
+// basically komponenta wrapuje okmponentu i dodaje joj (injectuje) još neke funkcionalnosti
+// in this case some extra syntax which will parse your styles and understand some extra features that you now can start using
+
+// dodavanje ovih higher order komponenti može da se radi i na funkcionalnim i na state komponentama
+export default Radium(App);
